@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dw.web.moudles.login.dao.LoginDao">
+
+    <select id="getLoginVo" resultType="com.dw.web.moudles.login.entity.LoginVo">
+        select id,uname,pwd,cardId from user where cardId=#{cardId}
+    </select>
+
+    <insert id="saveRegister">
+        insert into user(
+        cardId,
+        pwd,
+        addTime
+        )values (
+        #{cardId},
+        #{pwd},
+        now()
+        )
+    </insert>
+
+
+</mapper>

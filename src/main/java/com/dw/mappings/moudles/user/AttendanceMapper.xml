@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dw.web.moudles.user.attendance.dao.AttendanceDao">
+
+
+    <select id="getAttendanceList" resultType="com.dw.web.moudles.user.attendance.entity.AttendanceVo">
+           SELECT
+                ad.id,
+                ad.startTime,
+                ad.endTime,
+                ad.stuCardId,
+                ad.teaCardId,
+                ad.course,
+                ad.content,
+                ad.editStatus,
+                u.uname AS stuName
+            FROM
+                `attendance` ad
+            LEFT JOIN `user` u ON  ad.stuCardId = u.cardId
+            WHERE
+                stuCardId = #{cardId}
+              <if test="editStatus!=null and editStatus!=''">
+                  and ad.editStatus = #{editStatus}
+              </if>
+              <if test="recordStarTime!=null and recordStarTime!=''">
+                and ad.startTime &gt; #{recordStarTime}
+                AND ad.startTime  &lt; #{recordEndTime}
+              </if>
+    </select>
+
+    <select id="getAttendanceRecordList" resultType="com.dw.web.moudles.user.attendance.entity.AttendanceVo">
+           SELECT
+                ad.id,
+                ad.startTime,
+                ad.endTime,
+				ad.teaCardId,
+                ad.stuCardId,
+                u.uname AS stuName,
+				u1.uname AS teaName,
+				ad.course
+            FROM
+                `attendance` ad
+            LEFT JOIN `user` u ON  ad.stuCardId = u.cardId
+			LEFT JOIN `user` u1 ON ad.teaCardId = u1.cardId
+            WHERE
+                stuCardId =#{cardId}
+                <if test="recordStarTime!=null and recordStarTime!=''">
+                    and ad.startTime &gt; #{recordStarTime}
+                    AND ad.startTime  &lt; #{recordEndTime}
+                </if>
+    </select>
+
+
+    <!--获取单一考勤信息-->
+    <select id="getOneAttendanceDetail" resultType="com.dw.web.moudles.user.attendance.entity.AttendanceVo">
+        SELECT
+                id,
+                startTime,
+                endTime,
+                stuCardId,
+                course,
+                teaCardId,
+                content
+            FROM
+                attendance
+            where id=#{id}
+    </select>
+
+    <update id="saveAttendance">
+       UPDATE attendance SET
+                course=#{course},
+                teaCardId =#{teaCardId},
+                `content` = #{content},
+                editStatus =#{editStatus}
+                WHERE id=#{id}
+    </update>
+
+    <!--老师获取学生考勤信息 学生列表-->
+    <select id="teaViewRecord" resultType="com.dw.web.moudles.user.attendance.entity.AttendanceVo">
+                SELECT
+                    u.uname AS stuName,
+                    u.cardId AS stuCardId,
+                    u.classInfo,
+                    u.phone,
+                    u.identity
+                FROM
+                    attendance ad
+                LEFT JOIN `user` u ON u.cardId = ad.stuCardId
+                WHERE teaCardId = #{cardId}
+                 <if test="leaveName!=null and leaveName!=''">
+                     and u.uname = #{leaveName}
+                 </if>
+                 <if test="recordStarTime!=null and recordStarTime!=''">
+                        and ad.startTime &gt; #{recordStarTime}
+                 </if>
+                 <if test="recordEndTime!=null and recordEndTime!=''">
+                         and ad.endTime &lt; #{recordEndTime}
+                 </if>
+    </select>
+
+    <!--老师获取学生出勤信息 学生出勤列表-->
+    <select id="getTeaAttendanceRecordList" resultType="com.dw.web.moudles.user.attendance.entity.AttendanceVo">
+          SELECT
+                ad.id,
+                ad.startTime,
+                ad.endTime,
+                ad.stuCardId,
+                ad.teaCardId,
+                ad.course,
+                ad.content,
+                u.uname AS stuName,
+                u1.uname AS teaName
+            FROM
+                `attendance` ad
+            LEFT JOIN `user` u ON  ad.stuCardId = u.cardId
+            LEFT JOIN `user` u1 ON  u1.cardId = ad.teaCardId
+            WHERE
+                stuCardId = #{stuCardId} AND teaCardId = #{teaCardId}
+        <if test="recordStarTime!=null and recordStarTime!=''">
+            and ad.startTime &gt; #{recordStarTime}
+        </if>
+        <if test="recordEndTime!=null and recordEndTime!=''">
+            and ad.endTime &lt; #{recordEndTime}
+        </if>
+    </select>
+</mapper>
