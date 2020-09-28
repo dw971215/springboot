@@ -9,7 +9,7 @@ RXTXcomm.jar
 或者将RXTXcomm.jar
 放入jre本地的安装路径中的lib ext中
 
-新测试合并分支内容测试提交失败的问
+新测试合并分支内容测试提交失败的问riie 
 
 
 
