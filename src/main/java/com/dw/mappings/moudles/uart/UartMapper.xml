@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dw.web.moudles.uart.dao.UartDao">
+
+
+	<!-- 查询所有的用户不带分页 -->
+	<!--<select id="getList" resultType="com.dw.web.moudles.user.entity.UserVo">
+		select id,uname,pwd,cardId from user
+	</select>-->
+
+    <!--修改个人信息-->
+	<insert id="add">
+		insert into attendance(
+		startTime,
+		stuCardId,
+		editStatus
+		)values (
+		now(),
+		#{stuCardId},
+		'0'
+		)
+	</insert>
+	<select id="selectOne" resultType="com.dw.web.moudles.uart.entity.UartVo">
+			SELECT
+				id,
+				startTime,
+				endTime
+			FROM
+				`attendance`
+			WHERE
+				stuCardId = #{stuCardId}
+			AND ISNULL(endTime)
+			ORDER BY
+				startTime;
+	</select>
+
+    <update id="updateOne">
+       UPDATE `attendance`
+			SET endTime = NOW()
+			WHERE
+				id = #{id};
+    </update>
+
+    <select id="selectEndTime" resultType="com.dw.web.moudles.uart.entity.UartVo">
+           SELECT
+                id,
+                endTime
+            FROM
+                `attendance`
+            WHERE
+                stuCardId = #{stuCardId}
+            ORDER BY
+                id DESC
+            LIMIT 1;
+    </select>
+	
+</mapper>

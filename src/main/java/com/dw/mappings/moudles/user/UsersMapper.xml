@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dw.web.moudles.user.personer.dao.UserDao">
+
+
+	<!-- 查询所有的用户不带分页 -->
+	<!--<select id="getList" resultType="com.dw.web.moudles.user.entity.UserVo">
+		select id,uname,pwd,cardId from user
+	</select>-->
+
+    <!--修改个人信息-->
+	<update id="updatePersonInfo">
+		update user set
+		uname = #{uname},
+		identity =#{identity},
+		phone = #{phone},
+		classInfo = #{classInfo},
+		motto = #{motto},
+		sex = #{sex},
+		updateTime = now()
+		where cardId = #{cardId}
+	</update>
+
+	<!--查询个人信息-->
+	<select id="getUserVo" resultType="com.dw.web.moudles.user.personer.entity.UserVo">
+		select  id,uname,pwd,cardId,identity,phone,classInfo,motto,sex from user where cardId=#{cardId}
+	</select>
+
+    <!--修改密码-->
+	<update id="updatePassWord">
+		update  user  set
+		pwd = #{pwd}
+		where cardId=#{cardId}
+	</update>
+	
+</mapper>

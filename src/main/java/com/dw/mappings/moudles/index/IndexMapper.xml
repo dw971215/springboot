@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dw.web.moudles.index.dao.IndexDao">
+
+    <select id="getLoginVo" resultType="com.dw.web.moudles.login.entity.LoginVo">
+        select id,uname,pwd,cardId,identity from user where cardId=#{cardId}
+    </select>
+
+    <select id="getCount" resultType="java.lang.String">
+        SELECT count(*) as `count` FROM `user`;
+    </select>
+
+    <select id="getTodayCount" resultType="java.lang.String">
+        select count(*) AS `count` from user where to_days(addTime) = to_days(now());
+    </select>
+
+    <!--学生请假总条数-->
+    <select id="getStuCount" resultType="java.lang.String">
+        SELECT count(1) AS `count` FROM leaveform WHERE applyCardId = #{cardId};
+    </select>
+
+    <select id="getTeaCount" resultType="java.lang.String">
+        SELECT count(1) AS `count` FROM leaveform WHERE approverCardId = #{cardId} AND `status` = '0';
+    </select>
+
+    <select id="getStuList" resultType="com.dw.web.moudles.user.leavemanagement.entity.LeaveVo">
+            SELECT
+                startTime,
+                endTime,
+                reason,
+                (CASE `status`
+            WHEN '0' THEN
+                '待审核'
+            WHEN '1' THEN
+                '审核通过'
+            WHEN '2' THEN
+                '审核不通过'
+            END ) AS `status`
+            FROM
+                leaveform
+            WHERE
+                applyCardId = #{cardId}
+                ORDER BY startTime DESC
+                limit 7;
+    </select>
+
+    <select id="getTeaList" resultType="com.dw.web.moudles.user.leavemanagement.entity.LeaveVo">
+            SELECT
+                startTime,
+                endTime,
+                reason,
+                (CASE `status`
+            WHEN '0' THEN
+                '待审核'
+            WHEN '1' THEN
+                '审核通过'
+            WHEN '2' THEN
+                '审核不通过'
+            END ) AS `status`
+            FROM
+                leaveform
+            WHERE
+                approverCardId = #{cardId}
+                and  status='0'
+                ORDER BY startTime DESC
+                limit 7;
+    </select>
+
+    <select id="getStuWeekData" resultType="com.dw.web.moudles.user.leavemanagement.entity.LeaveVo">
+                SELECT
+                CASE DAYOFWEEK(a.click_date)
+                WHEN '1' THEN
+                '星期天'
+                WHEN '2' THEN
+                '星期一'
+                WHEN '3' THEN
+                '星期二'
+                WHEN '4' THEN
+                '星期三'
+                WHEN '5' THEN
+                '星期四'
+                WHEN '6' THEN
+                '星期五'
+                WHEN '7' THEN
+                '星期六'
+                END AS timeWeek,
+                IFNULL(b.countNumber, 0) AS timeCounts
+                FROM
+                (
+                SELECT
+                DATE_SUB(CURDATE(), INTERVAL 6 DAY) AS click_date
+                UNION ALL
+                SELECT
+                DATE_SUB(CURDATE(), INTERVAL 5 DAY) AS click_date
+                UNION ALL
+                SELECT
+                DATE_SUB(CURDATE(), INTERVAL 4 DAY) AS click_date
+                UNION ALL
+                SELECT
+                DATE_SUB(CURDATE(), INTERVAL 3 DAY) AS click_date
+                UNION ALL
+                SELECT
+                DATE_SUB(CURDATE(), INTERVAL 2 DAY) AS click_date
+                UNION ALL
+                SELECT
+                DATE_SUB(CURDATE(), INTERVAL 1 DAY) AS click_date
+                UNION ALL
+                SELECT
+                DATE_SUB(CURDATE(), INTERVAL 0 DAY) AS click_date
+                ) a
+                LEFT JOIN (
+                SELECT
+                DATE_FORMAT(startTime, '%Y-%m-%d') AS datetime,
+                TIMESTAMPDIFF(MINUTE, startTime, endTime) AS total,
+                sum(
+                TIMESTAMPDIFF(MINUTE, startTime, endTime)
+                ) AS countNumber
+                FROM
+                attendance
+                WHERE
+                stuCardId = #{cardId}
+                AND startTime &lt; CURDATE() + 1
+                AND startTime &gt;= DATE_SUB(CURDATE(), INTERVAL 7 DAY)
+                GROUP BY
+                DATE_FORMAT(startTime, '%Y-%m-%d')
+                ) b ON a.click_date = b.datetime
+    </select>
+
+
+    <select id="getTeaClassData" resultType="com.dw.web.moudles.user.personer.entity.UserVo">
+                    SELECT
+                classInfo,
+                count(*) AS counts
+            FROM
+                (
+                    SELECT
+                        u.classInfo
+                    FROM
+                        attendance ad
+                    LEFT JOIN `user` u ON u.cardId = ad.stuCardId
+                    WHERE
+                        teaCardId = 'admin'
+                    GROUP BY
+                        ad.stuCardId
+                ) c
+            GROUP BY
+                c.classInfo
+    </select>
+</mapper>

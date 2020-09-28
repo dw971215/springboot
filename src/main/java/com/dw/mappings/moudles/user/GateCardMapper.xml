@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dw.web.moudles.user.gatecard.dao.GateCardDao">
+
+        <select id="getGateCourse" resultType="java.lang.String">
+                SELECT
+                    IFNULL(course,"未录入") AS courseName
+                FROM
+                    attendance
+                WHERE
+                        startTime &gt; #{starTime}
+                        AND startTime &lt; #{endTime}
+                    AND stuCardId = #{stuCardId}
+                GROUP BY course;
+        </select>
+
+        <select id="getGateCardMonth" resultType="com.dw.web.moudles.user.gatecard.entity.GateVo">
+            SELECT
+              IFNULL(course,"未录入") AS courseName,
+                COUNT(course) AS counts
+            FROM
+                attendance
+            WHERE
+                DATE_FORMAT(startTime, '%Y%m') = DATE_FORMAT(#{gateMonth}, '%Y%m')
+                AND stuCardId =#{stuCardId}
+            GROUP BY course
+        </select>
+
+
+        <select id="getTeaGateCardMonth" resultType="com.dw.web.moudles.user.gatecard.entity.GateVo">
+            SELECT
+            IFNULL(course, '未录入') courseName,
+            COUNT(stuCardId) AS counts
+            FROM
+            attendance
+            WHERE
+                startTime &gt; #{starTime}
+                AND startTime  &lt; #{endTime}
+                AND teaCardId = #{stuCardId}
+            GROUP BY course;
+
+        </select>
+
+</mapper>
