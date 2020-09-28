@@ -109,7 +109,7 @@
                 <li class="layui-nav-item layui-this">
                     <a href="/pt/index?cardId=${cardId}"  id="mainHome" onclick="showContentTitle(this)">
                         <i class="iconfont icon-home1" data-icon='icon-home1'></i>
-                        <span>我的家</span>
+                        <span>我的首页1</span>
                     </a>
                 </li>
                 <!-- 个人信息 -->
