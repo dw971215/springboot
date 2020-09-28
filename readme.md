@@ -7,7 +7,7 @@ rxtxSerial.dll
 RXTXcomm.jar
 
 或者将RXTXcomm.jar
-放入jre本地的安装路径中的lib ext中
+放入jre安装的路径中的lib ext中
 
 
 测试新增的代码我无敌我寂寞你能怎么办
