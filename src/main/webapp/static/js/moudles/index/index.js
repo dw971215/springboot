@@ -39,7 +39,7 @@ function setCookie (name, value) {
  * 退出系统
  */
 function goSignOut() {
-    window.location.href = "/pt/ptViewLogin";
+    window.location.href = "/";
 }
 
 /**

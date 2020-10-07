@@ -115,7 +115,6 @@ $(function () {
         success:function (data) {
             var monthNames =[];
             var monthNums = [];
-            debugger
             /!*执行成功后的操作*!/
             if(data.code=="10000"){
                 $.each(data.result,function (key,values) {

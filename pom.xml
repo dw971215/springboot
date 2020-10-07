@@ -69,6 +69,13 @@
         </dependency>
 
         <dependency>
+            <groupId>rxtx</groupId>
+            <artifactId>RxtxCommon</artifactId>
+            <version>1.0.0</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/extlib_sql/RXTXcomm.jar</systemPath>
+        </dependency>
+        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>

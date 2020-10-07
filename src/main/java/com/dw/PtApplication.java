@@ -12,8 +12,8 @@ public class PtApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(PtApplication.class, args);
-        /*SerialComController serialCom = new SerialComController();
-        SerialPort port= serialCom.openPort("COM3", 115200);*/
+        SerialComController serialCom = new SerialComController();
+        SerialPort port= serialCom.openPort("COM3", 115200);
     }
 
 }

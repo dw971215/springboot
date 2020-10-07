@@ -12,7 +12,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="author" content="order by dede58.com"/>
-    <meta name="author" content="order by dede58.com"/>
     <title>考勤管理系统</title>
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
@@ -109,7 +108,7 @@
                 <li class="layui-nav-item layui-this">
                     <a href="/pt/index?cardId=${cardId}"  id="mainHome" onclick="showContentTitle(this)">
                         <i class="iconfont icon-home1" data-icon='icon-home1'></i>
-                        <span>我的首页1</span>
+                        <span>我的首页</span>
                     </a>
                 </li>
                 <!-- 个人信息 -->
