@@ -107,6 +107,16 @@
         </plugins>
 
         <resources>
+
+           <!-- 添加的额外jar也要加入资源文件中打包-->
+            <resource>
+                <directory>${project.basedir}/extlib_sql</directory>
+                <targetPath>BOOT-INF/lib/</targetPath>
+                <includes>
+                    <include>**/*.jar</include>
+                </includes>
+            </resource>
+
             <resource>
                 <!--编译 src/main/resources 下的配置文件-->
                 <directory>src/main/resources</directory>

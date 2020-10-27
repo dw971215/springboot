@@ -397,14 +397,13 @@
         </div>
     </div>
     <!-- 底部区域 -->
-    <%--<div class="layui-footer layui-larry-foot" id="larry-footer">
+    <div class="layui-footer layui-larry-foot" id="larry-footer">
         <div class="layui-mian">
             <p class="p-admin">
-                <span>2017 &copy;</span>
-                广州普金计算机科技股份有限公司,版权所有
+                <span><a href="https://beian.miit.gov.cn/">2020 皖ICP备2020017995号 &copy;汉姆网</a></span>
             </p>
         </div>
-    </div>--%>
+    </div>
 </div>
 <!-- 加载js文件-->
 <script type="text/javascript" src="../../../static/manager/common/layui/layui.js"></script>
